@@ -1,0 +1,7 @@
+{
+  "name": "daily-tools",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
