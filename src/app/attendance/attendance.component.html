@@ -8,47 +8,44 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <ion-progress-bar type="indeterminate"></ion-progress-bar>
-        <div class="ion-padding-top ion-padding-horizontal">
-            <ion-fab slot="fixed">
-                <ion-fab-button (click)="inputFile1.click()">
-                    <ion-icon name="attach"></ion-icon>
-                </ion-fab-button>
-            </ion-fab>
-            <span class="file-label">{{ fileName1 || 'Selecionar arquivo 1' }}</span>
-            <input #inputFile1 style="opacity: 0; height: 56px; width: 0;" type="file"
-                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                (change)="file1 = $event.target.files[0]; fileName1 = $event.target.files[0]?.name" />
-        </div>
-        <div class="ion-padding-top ion-padding-horizontal">
-            <ion-fab slot="fixed">
-                <ion-fab-button (click)="inputFile2.click()">
-                    <ion-icon name="attach"></ion-icon>
-                </ion-fab-button>
-            </ion-fab>
-            <span class="file-label">{{ fileName2 || 'Selecionar arquivo 2' }}</span>
-            <input #inputFile2 style="opacity: 0; height: 56px; width: 0;" type="file"
-                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-                (change)="file2 = $event.target.files[0]; fileName2 = $event.target.files[0]?.name" />
-        </div>
-        <ion-row class="ion-padding-top">
-            <ion-col>
-                <ion-button (click)="generate()" color="primary" expand="block" [disabled]="isInvalid">
-                    Gerar
-                </ion-button>
-            </ion-col>
-        </ion-row>
+    <!-- <ion-progress-bar [value]="loadingProgress" color="medium" *ngIf="isLoading"></ion-progress-bar> -->
+    <div class="ion-padding-top ion-padding-horizontal file-upload">
+        <ion-fab-button (click)="inputFile1.click()">
+            <ion-icon name="attach"></ion-icon>
+        </ion-fab-button>
+        <div class="ion-padding-start">{{ fileName1 || 'Selecionar arquivo 1' }}</div>
+        <input #inputFile1 style="opacity: 0; height: 56px; width: 0;" type="file"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            (change)="onChangeFile1($event)" />
+    </div>
+    <div class="ion-padding-top ion-padding-horizontal file-upload">
+        <ion-fab-button (click)="inputFile2.click()">
+            <ion-icon name="attach"></ion-icon>
+        </ion-fab-button>
+        <div class="ion-padding-start">{{ fileName2 || 'Selecionar arquivo 2' }}</div>
+        <input #inputFile2 style="opacity: 0; height: 56px; width: 0;" type="file"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            (change)="onChangeFile2($event)" />
+    </div>
+    <ion-row class="ion-padding-top">
+        <ion-col>
+            <ion-button (click)="generate()" color="primary" expand="block" [disabled]="isInvalid">
+                Gerar
+            </ion-button>
+        </ion-col>
+    </ion-row>
     <ion-item-divider></ion-item-divider>
     <div>
-        <ion-card>
+        <ion-card *ngFor="let d of data; let i = index">
             <ion-card-header>
-                <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-                <ion-card-title>Card Title</ion-card-title>
+                <ion-card-subtitle>{{ d.status }}</ion-card-subtitle>
+                <ion-card-title>{{ d.nota }}</ion-card-title>
             </ion-card-header>
 
             <ion-card-content>
-                Keep close to Nature's heart... and break clear away, once in awhile,
-                and climb a mountain or spend a week in the woods. Wash your spirit clean.
+                <p><strong>Equipe:</strong> {{ d.equipe }}</p>
+                <p><strong>Endereço:</strong> {{ d.endereco }}</p>
+                <p><strong>Descrição:</strong> {{ d.descricao }}</p>
             </ion-card-content>
         </ion-card>
     </div>
