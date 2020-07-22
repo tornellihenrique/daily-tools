@@ -1,8 +1,14 @@
 <ion-list>
-    <ion-item button (click)="attendaceService.sort()" [disabled]="!canReorder">
+    <ion-item button (click)="attendaceService.sort()" [disabled]="!hasData">
         <ion-icon name="filter"></ion-icon>
         <ion-label class="ion-padding-start">
             Reordenar
+        </ion-label>
+    </ion-item>
+    <ion-item button (click)="attendaceService.clear()" [disabled]="!hasData">
+        <ion-icon name="trash"></ion-icon>
+        <ion-label class="ion-padding-start">
+            Limpar
         </ion-label>
     </ion-item>
 </ion-list>

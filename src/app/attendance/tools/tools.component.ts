@@ -4,16 +4,14 @@ import { AttendanceService } from '../attendance.service';
 @Component({
   selector: 'app-tools',
   templateUrl: './tools.component.html',
-  styleUrls: ['./tools.component.scss']
+  styleUrls: ['./tools.component.scss'],
 })
 export class ToolsComponent implements OnInit {
+  constructor(public attendaceService: AttendanceService) {}
 
-  constructor(public attendaceService: AttendanceService) { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-  }
-
-  get canReorder() {
+  get hasData() {
     return this.attendaceService.data && this.attendaceService.data.length > 0;
   }
 }

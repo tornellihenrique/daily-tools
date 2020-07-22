@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { AlertController, LoadingController, PopoverController } from '@ionic/angular';
-import { ToolsComponent } from './tools/tools.component';
 
 @Injectable({
   providedIn: 'root',
@@ -50,10 +49,24 @@ export class AttendanceService {
     let ccs = [];
     let cwsi = [];
 
-    if (this.sheet1 && this.sheet1[0] && this.sheet1[0]['Local']) {
+    if (
+      this.sheet1 &&
+      this.sheet1[0] &&
+      this.sheet1[0]['Local'] &&
+      this.sheet2 &&
+      this.sheet2[0] &&
+      this.sheet2[0]['NOM_MUNIC']
+    ) {
       ccs = this.sheet1;
       cwsi = this.sheet2;
-    } else if (this.sheet2 && this.sheet2[0] && this.sheet2[0]['Local']) {
+    } else if (
+      this.sheet2 &&
+      this.sheet2[0] &&
+      this.sheet2[0]['Local'] &&
+      this.sheet1 &&
+      this.sheet1[0] &&
+      this.sheet1[0]['NOM_MUNIC']
+    ) {
       ccs = this.sheet2;
       cwsi = this.sheet1;
     } else {
@@ -63,7 +76,8 @@ export class AttendanceService {
     for (const ccsFile of ccs) {
       const cwsiFile = cwsi.find(
         val =>
-          (val['STATUS'] === 'Deslocando' || val['STATUS'] === 'Executando') && val['NOTA'] === Number(ccsFile['Nota']),
+          (val['STATUS_MOB'] === 'DESLOCANDO' || val['STATUS_MOB'] === 'EXECUTANDO') &&
+          Number(val['NOTA_SERVICO']) === Number(ccsFile['Nota']),
       );
 
       if (!cwsiFile) {
@@ -71,11 +85,11 @@ export class AttendanceService {
       }
 
       this.data.push({
-        nota: cwsiFile['NOTA'],
-        equipe: cwsiFile['NRO_EQUIPE'],
-        status: cwsiFile['STATUS'],
+        nota: cwsiFile['NOTA_SERVICO'],
+        equipe: cwsiFile['EQUIP'],
+        status: cwsiFile['STATUS_MOB'],
         endereco: `${ccsFile['Rua']} - ${ccsFile['Bairro']} - ${ccsFile['Local']}`,
-        descricao: cwsiFile['DSC_SERVICO'],
+        descricao: cwsiFile['DSC_OBSERVACOES_SA'],
       });
     }
 
@@ -110,6 +124,23 @@ export class AttendanceService {
         return 0;
       });
     }
+  }
+
+  clear() {
+    this.file1 = null;
+    this.file2 = null;
+
+    this.fileName1 = '';
+    this.fileName2 = '';
+
+    this.sheet1 = null;
+    this.sheet2 = null;
+
+    this.data = [];
+
+    this.order = 0;
+
+    this.hideTools();
   }
 
   readFile(file: File, index: number) {
@@ -147,9 +178,9 @@ export class AttendanceService {
     this.fileName2 = this.file2 ? this.file2.name : '';
   }
 
-  async showTools(e: any) {
+  async showTools(e: any, component: any) {
     this.popover = await this.popoverController.create({
-      component: ToolsComponent,
+      component,
       event: e,
       translucent: true,
     });
