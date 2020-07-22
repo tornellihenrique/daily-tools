@@ -4,6 +4,11 @@
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
         <ion-title>Acompanhamento CPFL</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="attendanceService.showTools($event)">
+                <ion-icon slot="icon-only" ios="ellipsis-horizontal" md="ellipsis-vertical"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
@@ -13,30 +18,29 @@
         <ion-fab-button (click)="inputFile1.click()">
             <ion-icon name="attach"></ion-icon>
         </ion-fab-button>
-        <div class="ion-padding-start">{{ fileName1 || 'Selecionar arquivo 1' }}</div>
+        <div class="ion-padding-start">{{ attendanceService.fileName1 || 'Selecionar arquivo 1' }}</div>
         <input #inputFile1 style="opacity: 0; height: 56px; width: 0;" type="file"
             accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            (change)="onChangeFile1($event)" />
+            (change)="attendanceService.onChangeFile1($event)" />
     </div>
     <div class="ion-padding-top ion-padding-horizontal file-upload">
         <ion-fab-button (click)="inputFile2.click()">
             <ion-icon name="attach"></ion-icon>
         </ion-fab-button>
-        <div class="ion-padding-start">{{ fileName2 || 'Selecionar arquivo 2' }}</div>
+        <div class="ion-padding-start">{{ attendanceService.fileName2 || 'Selecionar arquivo 2' }}</div>
         <input #inputFile2 style="opacity: 0; height: 56px; width: 0;" type="file"
             accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            (change)="onChangeFile2($event)" />
+            (change)="attendanceService.onChangeFile2($event)" />
     </div>
     <ion-row class="ion-padding-top">
         <ion-col>
-            <ion-button (click)="generate()" color="primary" expand="block" [disabled]="isInvalid">
+            <ion-button (click)="attendanceService.generate()" color="primary" expand="block" [disabled]="isInvalid">
                 Gerar
             </ion-button>
         </ion-col>
     </ion-row>
-    <ion-item-divider></ion-item-divider>
     <div>
-        <ion-card *ngFor="let d of data; let i = index">
+        <ion-card *ngFor="let d of attendanceService.data; let i = index">
             <ion-card-header>
                 <ion-card-subtitle>{{ d.status }}</ion-card-subtitle>
                 <ion-card-title>{{ d.nota }}</ion-card-title>
