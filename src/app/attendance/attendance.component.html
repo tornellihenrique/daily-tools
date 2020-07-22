@@ -1,0 +1,55 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Acompanhamento CPFL</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+        <div class="ion-padding-top ion-padding-horizontal">
+            <ion-fab slot="fixed">
+                <ion-fab-button (click)="inputFile1.click()">
+                    <ion-icon name="attach"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
+            <span class="file-label">{{ fileName1 || 'Selecionar arquivo 1' }}</span>
+            <input #inputFile1 style="opacity: 0; height: 56px; width: 0;" type="file"
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                (change)="file1 = $event.target.files[0]; fileName1 = $event.target.files[0]?.name" />
+        </div>
+        <div class="ion-padding-top ion-padding-horizontal">
+            <ion-fab slot="fixed">
+                <ion-fab-button (click)="inputFile2.click()">
+                    <ion-icon name="attach"></ion-icon>
+                </ion-fab-button>
+            </ion-fab>
+            <span class="file-label">{{ fileName2 || 'Selecionar arquivo 2' }}</span>
+            <input #inputFile2 style="opacity: 0; height: 56px; width: 0;" type="file"
+                accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                (change)="file2 = $event.target.files[0]; fileName2 = $event.target.files[0]?.name" />
+        </div>
+        <ion-row class="ion-padding-top">
+            <ion-col>
+                <ion-button (click)="generate()" color="primary" expand="block" [disabled]="isInvalid">
+                    Gerar
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    <ion-item-divider></ion-item-divider>
+    <div>
+        <ion-card>
+            <ion-card-header>
+                <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+                <ion-card-title>Card Title</ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+                Keep close to Nature's heart... and break clear away, once in awhile,
+                and climb a mountain or spend a week in the woods. Wash your spirit clean.
+            </ion-card-content>
+        </ion-card>
+    </div>
+</ion-content>

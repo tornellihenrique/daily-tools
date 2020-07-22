@@ -5,8 +5,7 @@
     "homepage": "https://ionicframework.com/",
     "scripts": {
         "start": "ng serve",
-        "start mobile": "ionic cordova run android --release",
-        "start mobile:prod": "ionic cordova run android --prod --release",
+        "start:mobile": "ionic cordova run android --device",
         "build:prod": "ionic build --prod"
     },
     "private": true,
@@ -26,6 +25,7 @@
         "cordova-android": "8.1.0",
         "rxjs": "~6.5.1",
         "tslib": "^1.10.0",
+        "xlsx": "^0.16.4",
         "zone.js": "~0.10.2"
     },
     "devDependencies": {
@@ -65,8 +65,13 @@
             "cordova-plugin-statusbar": {},
             "cordova-plugin-device": {},
             "cordova-plugin-splashscreen": {},
-            "cordova-plugin-ionic-webview": {},
+            "cordova-plugin-ionic-webview": {
+                "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
+            },
             "cordova-plugin-ionic-keyboard": {}
-        }
+        },
+        "platforms": [
+            "android"
+        ]
     }
 }
