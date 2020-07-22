@@ -6,7 +6,8 @@
     "scripts": {
         "start": "ng serve",
         "start:mobile": "ionic cordova run android --device",
-        "build:prod": "ionic build --prod"
+        "build": "ionic build",
+        "build:mobile": "ionic cordova build android --prod"
     },
     "private": true,
     "dependencies": {
