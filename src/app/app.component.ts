@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { TodoService } from './providers/todo.service';
 
 @Component({
   selector: 'app-root',
@@ -22,23 +23,41 @@ export class AppComponent implements OnInit {
       url: '/attendance',
       icon: 'reader',
     },
+    {
+      title: 'To Do',
+      url: '/todo',
+      icon: 'checkbox',
+    },
   ];
 
-  constructor(private platform: Platform, private splashScreen: SplashScreen, private statusBar: StatusBar) {
+  constructor(
+    private platform: Platform,
+    private splashScreen: SplashScreen,
+    private statusBar: StatusBar,
+    private db: TodoService,
+  ) {
     this.initializeApp();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
-      this.splashScreen.hide();
+
+      this.db
+        .createDatabase()
+        .then(() => {
+          this.splashScreen.hide();
+        })
+        .catch(() => {
+          this.splashScreen.hide();
+        });
     });
   }
 
   ngOnInit() {
     const path = window.location.pathname;
     if (path) {
-      this.selectedIndex = this.appPages.findIndex(page => page.url.toLowerCase() === path.toLowerCase());
+      this.selectedIndex = this.appPages.findIndex(page => path.toLowerCase().indexOf(page.url.toLowerCase()) !== -1);
     }
   }
 }

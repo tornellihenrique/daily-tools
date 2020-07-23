@@ -21,12 +21,15 @@
         "@capacitor/core": "2.3.0",
         "@ionic-native/core": "^5.0.7",
         "@ionic-native/image-picker": "^5.27.0",
+        "@ionic-native/native-storage": "^5.27.0",
         "@ionic-native/splash-screen": "^5.0.0",
+        "@ionic-native/sqlite": "^5.16.0",
         "@ionic-native/status-bar": "^5.0.0",
         "@ionic/angular": "^5.0.0",
         "cordova-android": "8.1.0",
         "cordova-plugin-nativestorage": "^2.3.2",
         "cordova-plugin-telerik-imagepicker": "^2.3.3",
+        "cordova-sqlite-storage": "^5.0.1",
         "rxjs": "~6.5.1",
         "tslib": "^1.10.0",
         "xlsx": "^0.16.4",
@@ -73,7 +76,9 @@
                 "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
             },
             "cordova-plugin-ionic-keyboard": {},
-            "cordova-plugin-telerik-imagepicker": {}
+            "cordova-plugin-telerik-imagepicker": {},
+            "cordova-plugin-nativestorage": {},
+            "cordova-sqlite-storage": {}
         },
         "platforms": [
             "android"
