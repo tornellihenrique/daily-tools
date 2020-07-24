@@ -1,26 +1,41 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
 import { Category } from '../../models/category.model';
-import { ToastController, NavController } from '@ionic/angular';
+import { ToastController, NavController, ModalController, PopoverController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ToolsComponent } from './tools/tools.component';
+import { AddComponent } from './add/add.component';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-category-list',
   templateUrl: './category-list.component.html',
   styleUrls: ['./category-list.component.scss'],
 })
-export class CategoryListComponent {
+export class CategoryListComponent implements OnDestroy {
+  realoadSubscription: Subscription;
+
   categories: Category[] = [];
   isLoading: boolean;
+
+  popover: HTMLIonPopoverElement;
 
   constructor(
     private categoryService: CategoryService,
     private toastController: ToastController,
     private navController: NavController,
+    private popoverController: PopoverController,
+    private modalController: ModalController,
   ) {}
 
+  ngOnDestroy() {
+    this.realoadSubscription.unsubscribe();
+  }
+
   ionViewDidEnter() {
-    this.loadCategories();
+    this.realoadSubscription = this.categoryService.getReloadObservable().subscribe(() => {
+      this.loadCategories();
+    });
   }
 
   goToItem(categoryId: number) {
@@ -44,6 +59,28 @@ export class CategoryListComponent {
 
       this.isLoading = false;
     }
+  }
+
+  async add() {
+    const modal = await this.modalController.create({
+      component: AddComponent,
+    });
+    return await modal.present();
+  }
+
+  async showTools(event: any, id: number) {
+    this.popover = await this.popoverController.create({
+      component: ToolsComponent,
+      event,
+      translucent: true,
+      componentProps: {
+        categoryId: id,
+      },
+    });
+
+    this.popover.onDidDismiss();
+
+    return await this.popover.present();
   }
 
   private async presentErrorToast() {

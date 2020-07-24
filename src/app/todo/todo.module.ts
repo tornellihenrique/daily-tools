@@ -7,9 +7,11 @@ import { ItemListComponent } from './components/item-list/item-list.component';
 import { IonicModule } from '@ionic/angular';
 import { CategoryService } from './services/category.service';
 import { ItemService } from './services/item.service';
+import { ToolsComponent } from './components/category-list/tools/tools.component';
+import { AddComponent } from './components/category-list/add/add.component';
 
 @NgModule({
-  declarations: [CategoryListComponent, ItemListComponent],
+  declarations: [CategoryListComponent, ItemListComponent, ToolsComponent, AddComponent],
   imports: [CommonModule, IonicModule, TodoRoutingModule],
   providers: [CategoryService, ItemService],
 })

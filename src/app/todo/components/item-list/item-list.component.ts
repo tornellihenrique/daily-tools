@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CategoryService } from '../../services/category.service';
 import { ItemService } from '../../services/item.service';
 import { ToastController } from '@ionic/angular';
+import { Item } from '../../models/item.model';
 
 @Component({
   selector: 'app-item-list',
@@ -15,6 +16,8 @@ export class ItemListComponent {
 
   categoryName: string;
   categoryId: number;
+
+  items: Item[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -30,7 +33,20 @@ export class ItemListComponent {
     this.loadItems();
   }
 
-  async loadItems(search: string = null) {}
+  async loadItems(search: string = null) {
+    this.isLoadingItems = true;
+
+    try {
+      this.items = await this.itemService.getItems(this.categoryId);
+
+      this.isLoadingItems = false;
+    } catch (e) {
+      console.error(e);
+      this.presentErrorToast();
+
+      this.isLoadingItems = false;
+    }
+  }
 
   async loadCategoryInfo() {
     this.isLoadingCategoryInfo = true;

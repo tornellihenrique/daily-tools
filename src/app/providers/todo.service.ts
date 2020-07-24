@@ -18,8 +18,6 @@ export class TodoService {
     return this.getDB()
       .then((db: SQLiteObject) => {
         this.createTables(db);
-
-        this.insertDefaultItems(db);
       })
       .catch(e => console.log(e));
   }

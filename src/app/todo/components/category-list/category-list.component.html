@@ -3,6 +3,7 @@
         <ion-buttons slot="start">
             <ion-menu-button></ion-menu-button>
         </ion-buttons>
+        <ion-title>To Do</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -16,12 +17,31 @@
                 <ion-col size="6" *ngFor="let c of categories; let i = index">
                     <ion-card (click)="goToItem(c.id)">
                         <ion-card-header>
-                            <ion-icon name="bookmark" style="font-size: 24px"></ion-icon>
-                            <ion-card-title>{{ c.name }}</ion-card-title>
+                            <div style="display: flex; justify-content: center;" class="ion-padding-vertical">
+                                <ion-icon name="bookmark" style="font-size: 24px;"></ion-icon>
+                            </div>
+
+                            <ion-card-title style="text-align: center;">{{ c.name }}</ion-card-title>
                         </ion-card-header>
                     </ion-card>
+                    <div (click)="showTools($event, c.id)">
+                        <ion-icon name="ellipsis-horizontal" size="small" class="options-button"></ion-icon>
+                    </div>
                 </ion-col>
             </ng-container>
         </ion-row>
     </ion-grid>
+
+    <div class="empty-data-container" *ngIf="!isLoading && categories && categories.length === 0">
+        <div>
+            <ion-img src="assets/images/caixa.svg" style="width: 150px; margin: 0 auto;"></ion-img>
+            <p>Nenhuma categoria encontrada!</p>
+        </div>
+    </div>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="add()">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 </ion-content>

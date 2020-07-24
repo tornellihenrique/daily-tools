@@ -1,0 +1,16 @@
+.empty-data-container {
+    width: 100%;
+    height: calc(100% - 200px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.options-button {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    border-radius: 50%;
+    padding: 6px;
+    background-color: var(--ion-color-step-50);
+}

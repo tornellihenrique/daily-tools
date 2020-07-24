@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TodoService } from '../../providers/todo.service';
 import { Category } from '../models/category.model';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class CategoryService {
+  private reloadObservable = new BehaviorSubject(null);
+
   constructor(private db: TodoService) {}
 
   async getCategoryById(id: number) {
@@ -128,5 +131,13 @@ export class CategoryService {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  reload() {
+    this.reloadObservable.next(null);
+  }
+
+  getReloadObservable() {
+    return this.reloadObservable;
   }
 }
