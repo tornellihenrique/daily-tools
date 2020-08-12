@@ -122,9 +122,12 @@ export class CategoryService {
         throw new Error('Error getting database');
       }
 
-      const sql = 'DELETE FROM categories WHERE id = ?';
+      const sql1 = 'DELETE FROM items WHERE category_id = ?';
+
+      const sql2 = 'DELETE FROM categories WHERE id = ?';
       try {
-        return dbObj.executeSql(sql, [id]);
+        await dbObj.executeSql(sql1, [id]);
+        return dbObj.executeSql(sql2, [id]);
       } catch (e) {
         console.error(e);
       }

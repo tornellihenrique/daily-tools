@@ -18,6 +18,7 @@ export class AttendanceService {
     equipe: string;
     status: string;
     endereco: string;
+    descricao: string;
   }[] = [];
 
   loading: HTMLIonLoadingElement;
@@ -86,6 +87,7 @@ export class AttendanceService {
         equipe: cwsiFile['EQUIP'],
         status: cwsiFile['STATUS_MOB'],
         endereco: `${ccsFile['Rua']} - ${ccsFile['Bairro']} - ${ccsFile['Local']}`,
+        descricao: ccsFile['Descrição'],
       });
     }
 

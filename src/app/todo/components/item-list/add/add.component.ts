@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Category } from 'src/app/todo/models/category.model';
-import { ModalController, AlertController } from '@ionic/angular';
-import { CategoryService } from 'src/app/todo/services/category.service';
+import { AlertController, ModalController } from '@ionic/angular';
+import { ItemService } from 'src/app/todo/services/item.service';
 
 @Component({
   selector: 'app-add',
@@ -9,20 +8,22 @@ import { CategoryService } from 'src/app/todo/services/category.service';
   styleUrls: ['./add.component.scss'],
 })
 export class AddComponent {
+  @Input() categoryId: number;
+
   name: string;
   isLoading: boolean;
 
   constructor(
     private alertController: AlertController,
     private modalController: ModalController,
-    private categoryService: CategoryService,
+    private itemService: ItemService,
   ) {}
 
   async create() {
     try {
       this.isLoading = true;
-      await this.categoryService.insert({ name: this.name });
-      this.categoryService.reload();
+      await this.itemService.insert({ name: this.name, done: 0, categoryId: this.categoryId });
+      this.itemService.reload();
 
       this.isLoading = false;
 
@@ -33,7 +34,7 @@ export class AddComponent {
       (
         await this.alertController.create({
           header: 'Erro!',
-          message: 'Erro ao criar categoria!',
+          message: 'Erro ao criar item!',
           buttons: [
             {
               text: 'Ok',

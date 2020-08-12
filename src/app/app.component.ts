@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
       icon: 'reader',
     },
     {
-      title: 'To Do',
+      title: 'Tarefas',
       url: '/todo',
       icon: 'checkbox',
     },

@@ -14,3 +14,9 @@
     padding: 6px;
     background-color: var(--ion-color-step-50);
 }
+
+.basic-center {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}

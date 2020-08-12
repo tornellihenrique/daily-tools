@@ -8,16 +8,32 @@
 
 <ion-content [fullscreen]="true">
     <ion-progress-bar type="indeterminate" *ngIf="isLoadingCategoryInfo || isLoadingItems"></ion-progress-bar>
-    <h2 class="ion-padding-start">{{ categoryName }}</h2>
-    <ion-list *ngIf="items && items.length > 0">
-        <ion-item *ngFor="let item of items; let i = index">
-            <ion-label>
-                <span [ngStyle]="{'text-decoration': item.done ? null : 'line-through'}">
-                    {{ item.name }}
-                </span>
-            </ion-label>
-            <ion-checkbox slot="start"></ion-checkbox>
-        </ion-item>
+    <h2 class="ion-padding-start ion-padding-bottom">{{ categoryName }}</h2>
+    <ion-list *ngIf="items && items.length > 0" style="height: calc(100% - 100px); background: transparent;">
+        <ion-reorder-group (ionItemReorder)="reorderItems($event)" disabled="false">
+            <ion-item-sliding *ngFor="let item of items; let i = index">
+                <ion-item [lines]="i === items?.length - 1 ? 'none' : 'full'" (click)="item.done = !item.done; onChangeItem(i)">
+                    <ion-label>
+                        <span [ngStyle]="{'text-decoration': !item.done ? null : 'line-through'}">{{ item.name }}</span>
+                    </ion-label>
+                    <ion-buttons slot="start">
+                        <ion-checkbox slot="start" [(ngModel)]="item.done" (ngModelChange)="onChangeItem(i)" (click)="$event.stopPropagation()">
+                        </ion-checkbox>
+                    </ion-buttons>
+                    <ion-reorder></ion-reorder>
+                    <ion-icon slot="end" name="chevron-back"></ion-icon>
+                </ion-item>
+
+                <ion-item-options side="end">
+                    <ion-item-option color="secondary" (click)="onRemoveItem(i)">
+                        <ion-icon slot="icon-only" name="create"></ion-icon>
+                    </ion-item-option>
+                    <ion-item-option color="danger" (click)="onRemoveItem(i)">
+                        <ion-icon slot="icon-only" name="trash"></ion-icon>
+                    </ion-item-option>
+                </ion-item-options>
+            </ion-item-sliding>
+        </ion-reorder-group>
     </ion-list>
     <div class="empty-data-container" *ngIf="!isLoadingItems && items && items.length === 0">
         <div>
@@ -25,4 +41,10 @@
             <p>Nenhum item encontrado!</p>
         </div>
     </div>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="add()">
+            <ion-icon name="add"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 </ion-content>
